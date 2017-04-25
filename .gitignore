@@ -1,0 +1,15 @@
+.idea/**
+/target/**
+*.iml
+database.db.mv.db
+/repos/**
+/workspace/**
+/job/**
+/test/**
+/content/**
+
+.apt_generated/**
+.settings/**
+.project
+.factorypath
+.classpath
