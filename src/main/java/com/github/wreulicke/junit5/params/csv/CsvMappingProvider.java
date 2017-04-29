@@ -77,7 +77,9 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
     for (String column : columns) {
       builder.addColumn(column);
     }
-    return builder.build();
+    return builder.build()
+      .withColumnSeparator(delimiter)
+      .withLineSeparator(separator);
   }
 
 }
