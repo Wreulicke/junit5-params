@@ -1,16 +1,14 @@
 package com.github.wreulicke.junit5.params.csv;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@RunWith(JUnitPlatform.class)
 public class CsvMappingProviderTest {
+
   @ParameterizedTest
   @CsvMappingSource("/test.csv")
   void case1(User user) {
