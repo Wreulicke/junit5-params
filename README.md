@@ -1,13 +1,34 @@
-# junit5-params
+# Junit5-Params
 
 [![CircleCI](https://circleci.com/gh/Wreulicke/junit5-params.svg?style=svg)](https://circleci.com/gh/Wreulicke/junit5-params)
 
 * provides CSV POJO Mapping with jackson-dataformat-csv
 
-# usage
+# Getting Started
+
+## Add repository
+
+This library provides from jitpack.
+So, add followings into your configuration.
+
+```groovy
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+```
+
+## Add dependency
+
+```groovy
+dependencies {
+	        compile 'com.github.Wreulicke:junit5-params:0.0.1-RC2'
+}
+```
+
+## example 
 
 ```java
-@RunWith(JUnitPlatform.class)
 public class ExampleTest{ 
   @ParameterizedTest
   @CsvMappingSource(value = "/test.csv", columns = {
