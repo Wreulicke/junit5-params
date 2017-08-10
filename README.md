@@ -1,5 +1,7 @@
 # junit5-params
 
+[![CircleCI](https://circleci.com/gh/Wreulicke/junit5-params.svg?style=svg)](https://circleci.com/gh/Wreulicke/junit5-params)
+
 * provides CSV POJO Mapping with jackson-dataformat-csv
 
 # usage
