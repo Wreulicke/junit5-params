@@ -9,10 +9,9 @@ import java.lang.reflect.Parameter;
 import java.nio.charset.Charset;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.extension.ContainerExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ObjectArrayArguments;
 import org.junit.jupiter.params.support.AnnotationConsumer;
 import org.junit.platform.commons.JUnitException;
 
@@ -42,8 +41,23 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
 
   }
 
+  private CsvSchema buildSchema(Class<?> target) {
+    if (columns == null) {
+      return mapper.schemaFor(target)
+        .withColumnSeparator(delimiter)
+        .withLineSeparator(separator);
+    }
+    Builder builder = CsvSchema.builder();
+    for (String column : columns) {
+      builder.addColumn(column);
+    }
+    return builder.build()
+      .withColumnSeparator(delimiter)
+      .withLineSeparator(separator);
+  }
+
   @Override
-  public Stream<? extends Arguments> arguments(ContainerExtensionContext context) throws Exception {
+  public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
     Method method = context.getTestMethod()
       .orElseThrow(() -> new JUnitException("cannot find method"));
     Class<?> testClass = method.getDeclaringClass();
@@ -61,25 +75,10 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
         .readValues(stream);
       return it.readAll()
         .stream()
-        .map(ObjectArrayArguments::create);
+        .map(Arguments::of);
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
-  }
-
-  private CsvSchema buildSchema(Class<?> target) {
-    if (columns == null) {
-      return mapper.schemaFor(target)
-        .withColumnSeparator(delimiter)
-        .withLineSeparator(separator);
-    }
-    Builder builder = CsvSchema.builder();
-    for (String column : columns) {
-      builder.addColumn(column);
-    }
-    return builder.build()
-      .withColumnSeparator(delimiter)
-      .withLineSeparator(separator);
   }
 
 }
