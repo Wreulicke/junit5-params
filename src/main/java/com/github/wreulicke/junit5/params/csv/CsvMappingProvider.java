@@ -41,7 +41,6 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
 
   }
 
-
   private CsvSchema buildSchema(Class<?> target) {
     if (columns == null) {
       return mapper.schemaFor(target)
