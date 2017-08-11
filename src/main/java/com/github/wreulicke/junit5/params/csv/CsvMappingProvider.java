@@ -32,9 +32,11 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
   public void accept(CsvMappingSource source) {
     delimiter = source.delimiter();
     String[] columns = source.columns();
+
     if (columns.length != 1 || !columns[0].equals("")) {
       this.columns = columns;
     }
+
     encoding = source.encoding();
     separator = source.lineSeparator();
     resourcePath = source.value();
@@ -42,15 +44,19 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
   }
 
   private CsvSchema buildSchema(Class<?> target) {
+
     if (columns == null) {
       return mapper.schemaFor(target)
         .withColumnSeparator(delimiter)
         .withLineSeparator(separator);
     }
+
     Builder builder = CsvSchema.builder();
+
     for (String column : columns) {
       builder.addColumn(column);
     }
+
     return builder.build()
       .withColumnSeparator(delimiter)
       .withLineSeparator(separator);
@@ -62,9 +68,11 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
       .orElseThrow(() -> new JUnitException("cannot find method"));
     Class<?> testClass = method.getDeclaringClass();
     Parameter[] parameters = method.getParameters();
+
     if (parameters.length != 1) {
-      throw new JUnitException("cannot use here");
+      throw new JUnitException("cannot use here : " + method.toGenericString());
     }
+
     Class<?> type = parameters[0].getType();
     CsvSchema schema = buildSchema(type);
 

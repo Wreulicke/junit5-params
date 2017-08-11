@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.params.ParameterizedTest;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.wreulicke.junit5.params.User;
 
 public class CsvMappingProviderTest {
 
@@ -32,35 +32,5 @@ public class CsvMappingProviderTest {
     assertThat(user.getPassword()).is(new Condition<>((n) -> {
       return n.equals("aaa") || n.equals("ccc");
     }, "valid password"));
-  }
-
-  @JsonPropertyOrder({
-    "userName",
-    "password"
-  })
-  public static class User {
-    private String userName;
-    private String password;
-
-    public String getUserName() {
-      return userName;
-    }
-
-    public void setUserName(String userName) {
-      this.userName = userName;
-    }
-
-    public String getPassword() {
-      return password;
-    }
-
-    public void setPassword(String password) {
-      this.password = password;
-    }
-
-    @Override
-    public String toString() {
-      return "User [userName=" + userName + ", password=" + password + "]";
-    }
   }
 }
