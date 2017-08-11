@@ -40,12 +40,8 @@ public class ExampleTest{
     "userName"
   })
   void case1(User user) {
-    assertThat(user.getUserName()).is(new Condition<>((n) -> {
-      return n.equals("bbb") || n.equals("ddd");
-    }, "valid user name"));
-    assertThat(user.getPassword()).is(new Condition<>((n) -> {
-      return n.equals("aaa") || n.equals("ccc");
-    }, "valid password"));
+    assertThat(user.getUserName()).isEqualTo("john doe");
+    assertThat(user.getPassword()).isEqualTo("some-passowrd");
   }
 }
 ```
