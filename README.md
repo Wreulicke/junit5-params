@@ -2,7 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/Wreulicke/junit5-params.svg?style=svg)](https://circleci.com/gh/Wreulicke/junit5-params)
 
-* provides CSV POJO Mapping with jackson-dataformat-csv
+`JUnit5-Params` provides more easy parameterized test using junit5 parameterized test feature.
+
+* provides CSV/JSON POJO Mapping with jackson-dataformat-csv for testing
 
 # Getting Started
 
@@ -32,17 +34,14 @@ dependencies {
 public class ExampleTest{ 
   
   @ParameterizedTest
+  // @JsonMappingSource(value = "/test.json")
   @CsvMappingSource(value = "/test.csv", columns = {
     "password",
     "userName"
   })
   void case1(User user) {
-    assertThat(user.getUserName()).is(new Condition<>((n) -> {
-      return n.equals("bbb") || n.equals("ddd");
-    }, "valid user name"));
-    assertThat(user.getPassword()).is(new Condition<>((n) -> {
-      return n.equals("aaa") || n.equals("ccc");
-    }, "valid password"));
+    assertThat(user.getUserName()).isEqualTo("john doe");
+    assertThat(user.getPassword()).isEqualTo("some-passowrd");
   }
 }
 ```
