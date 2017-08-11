@@ -1,4 +1,4 @@
-package com.github.wreulicke.junit5.params.csv;
+package com.github.wreulicke.junit5.params.json;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,50 +16,17 @@ import org.junit.jupiter.params.support.AnnotationConsumer;
 import org.junit.platform.commons.JUnitException;
 
 import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema.Builder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer<CsvMappingSource> {
-  private char delimiter;
+public class JsonMappingProvider implements ArgumentsProvider, AnnotationConsumer<JsonMappingSource> {
   private String encoding;
-  private String separator;
-  private String[] columns;
   private String resourcePath;
-  private static CsvMapper mapper = new CsvMapper();
+  private static ObjectMapper mapper = new ObjectMapper();
 
   @Override
-  public void accept(CsvMappingSource source) {
-    delimiter = source.delimiter();
-    String[] columns = source.columns();
-
-    if (columns.length != 1 || !columns[0].equals("")) {
-      this.columns = columns;
-    }
-
+  public void accept(JsonMappingSource source) {
     encoding = source.encoding();
-    separator = source.lineSeparator();
     resourcePath = source.value();
-
-  }
-
-  private CsvSchema buildSchema(Class<?> target) {
-
-    if (columns == null) {
-      return mapper.schemaFor(target)
-        .withColumnSeparator(delimiter)
-        .withLineSeparator(separator);
-    }
-
-    Builder builder = CsvSchema.builder();
-
-    for (String column : columns) {
-      builder.addColumn(column);
-    }
-
-    return builder.build()
-      .withColumnSeparator(delimiter)
-      .withLineSeparator(separator);
   }
 
   @Override
@@ -70,16 +37,14 @@ public class CsvMappingProvider implements ArgumentsProvider, AnnotationConsumer
     Parameter[] parameters = method.getParameters();
 
     if (parameters.length != 1) {
-      throw new JUnitException("cannot use here : " + method.toGenericString());
+      throw new JUnitException("cannot use here");
     }
 
     Class<?> type = parameters[0].getType();
-    CsvSchema schema = buildSchema(type);
 
     try (InputStream rs = testClass.getResourceAsStream(resourcePath);
       InputStreamReader stream = new InputStreamReader(rs, Charset.forName(encoding))) {
-      MappingIterator<?> it = mapper.readerFor(type)
-        .with(schema)
+      MappingIterator<Object> it = mapper.readerFor(type)
         .readValues(stream);
       return it.readAll()
         .stream()
