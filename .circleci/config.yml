@@ -8,12 +8,9 @@ jobs:
       _JAVA_OPTIONS: -Xmx3G
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run: ./gradlew dependencies
       
@@ -37,3 +34,21 @@ jobs:
       - store_test_results:
           path: build/test-results
 
+  build-benchmark:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      _JAVA_OPTIONS: -Xmx3G
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "build.gradle" }}
+          - v1-dependencies-
+      - run: ./gradlew jmh
+
+      - store_artifacts:
+          name: Store artifacts
+          path: build/reports
+          destination: artifacts
