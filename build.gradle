@@ -40,6 +40,7 @@ jacoco {
 jmh {
    humanOutputFile = project.file("${project.buildDir}/reports/jmh/result-for-human.txt")
    resultsFile = project.file("${project.buildDir}/reports/jmh/result.json")
+   resultFormat = 'JSON' 
 }
 
 task jacoco(type: JacocoReport) {
