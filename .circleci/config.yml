@@ -1,4 +1,10 @@
 version: 2
+workflows:
+  version: 2
+  all:
+    jobs:
+      - build
+      - build-benchmark
 jobs:
   build:
     docker:
