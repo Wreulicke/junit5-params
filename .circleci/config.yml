@@ -1,4 +1,10 @@
 version: 2
+workflows:
+  version: 2
+  all:
+    jobs:
+      - build
+      - build-benchmark
 jobs:
   build:
     docker:
@@ -8,12 +14,9 @@ jobs:
       _JAVA_OPTIONS: -Xmx3G
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run: ./gradlew dependencies
       
@@ -24,7 +27,7 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
         
       - run: ./gradlew test
-
+      - run: ./gradlew jmh
       - run:
           name: Create jacoco report
           command: ./gradlew jacoco
@@ -37,3 +40,27 @@ jobs:
       - store_test_results:
           path: build/test-results
 
+  build-benchmark:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      _JAVA_OPTIONS: -Xmx3G
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "build.gradle" }}
+          - v1-dependencies-
+      - run: ./gradlew jmh
+
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+          
+      - store_artifacts:
+          name: Store artifacts
+          path: build/reports
+          destination: artifacts
