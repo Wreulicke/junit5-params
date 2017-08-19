@@ -54,6 +54,12 @@ jobs:
           - v1-dependencies-
       - run: ./gradlew jmh
 
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+          
       - store_artifacts:
           name: Store artifacts
           path: build/reports
