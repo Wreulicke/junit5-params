@@ -40,7 +40,10 @@ jacoco {
 jmh {
    humanOutputFile = project.file("${project.buildDir}/reports/jmh/result-for-human.txt")
    resultsFile = project.file("${project.buildDir}/reports/jmh/result.json")
-   resultFormat = 'JSON' 
+   resultFormat = 'JSON'
+   fork = 2
+   warmupIterations = 20
+   iterations = 10
 }
 
 task jacoco(type: JacocoReport) {
