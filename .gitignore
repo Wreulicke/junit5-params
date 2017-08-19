@@ -7,9 +7,18 @@ database.db.mv.db
 /job/**
 /test/**
 /content/**
+.gradle
 
+# for eclipse
+bin/
 .apt_generated/**
 .settings/**
 .project
 .factorypath
 .classpath
+
+# for gradle
+!gradle-wrapper.jar
+build/
+
+.gradletasknamecache
