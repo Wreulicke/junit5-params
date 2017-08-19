@@ -27,7 +27,6 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
         
       - run: ./gradlew test
-      - run: ./gradlew jmh
       - run:
           name: Create jacoco report
           command: ./gradlew jacoco
@@ -59,7 +58,7 @@ jobs:
             - ~/.m2
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-          
+
       - store_artifacts:
           name: Store artifacts
           path: build/reports
