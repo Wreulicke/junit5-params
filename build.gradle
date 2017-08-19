@@ -37,6 +37,11 @@ jacoco {
     applyTo junitPlatformTest
 }
 
+jmh {
+   humanOutputFile = project.file("${project.buildDir}/reports/jmh/result-for-human.txt")
+   resultsFile = project.file("${project.buildDir}/reports/jmh/result.json")
+}
+
 task jacoco(type: JacocoReport) {
     classDirectories = files("build/classes/java/main")
     sourceDirectories = files("src/main/java")
