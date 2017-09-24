@@ -8,6 +8,7 @@ database.db.mv.db
 /test/**
 /content/**
 .gradle
+out/
 
 # for eclipse
 bin/
