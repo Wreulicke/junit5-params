@@ -64,8 +64,8 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.8'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.9.7'
 
-    compileOnly 'org.projectlombok:lombok:1.18.4'
-    testCompileOnly 'org.projectlombok:lombok:1.16.18'
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    testCompileOnly 'org.projectlombok:lombok:1.18.6'
 
     testCompile 'org.assertj:assertj-core:3.8.0'
 }
