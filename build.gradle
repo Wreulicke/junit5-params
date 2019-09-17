@@ -61,7 +61,7 @@ dependencies {
     testRuntime "org.junit.platform:junit-platform-launcher:$junitPlatfromVersion" // for IDE
     
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
-    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.10.0.pr3'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.9.7'
 
     compileOnly 'org.projectlombok:lombok:1.18.8'
